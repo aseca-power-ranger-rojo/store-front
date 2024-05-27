@@ -1,34 +1,42 @@
-import { Paper, Typography } from "@mui/material";
-import { Product } from "./components/Product";
+import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import CartSidebar from "./components/CartSidebar";
+import ProductList from "./components/ProductList";
 
-function App() {
+const App = () => {
+  const products = [
+    { id: "1", name: "Manzana Roja", price: "10" },
+    { id: "2", name: "Manzana Verde", price: "30" },
+    { id: "3", name: "Manzana Golden", price: "100" },
+    { id: "4", name: "Naranja", price: "10" },
+    { id: "5", name: "Mandarina", price: "30" },
+    { id: "6", name: "Toronja", price: "100" },
+    { id: "7", name: "Sandia", price: "10" },
+    { id: "8", name: "Pera", price: "30" },
+  ];
+
+  const [cartProducts, setCartProducts] = useState([]);
+
+  const addToCart = (product) => {
+    setCartProducts([...cartProducts, product]);
+  };
+
+  const removeFromCart = (productId) => {
+    setCartProducts(cartProducts.filter(product => product.id!== productId));
+  };
+
   return (
     <div className="App">
-      <Paper
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "column",
-          gap: "50px",
-          minHeight: "100vh",
-          padding: "40px",
-          backgroundColor: "slategray",
-        }}
-        elevation={1}
-      >
-        <Typography variant="h2" component="div">
-          Power Ranger Rojo's STORE
-        </Typography>
-        <Product id="1" name="Manzana" price="10" />
-        <Product id="2" name="Manzana" price="10" />
-        <Product id="3" name="Manzana" price="10" />
-        <Product id="4" name="Manzana" price="10" />
-        <Product id="5" name="Manzana" price="10" />
-        <Product id="6" name="Manzana" price="10" />
-        <Product id="7" name="Manzana" price="10" />
-      </Paper>
+      <Box sx={{ display: "flex", minHeight: "100vh" }}>
+        <ProductList addToCart={addToCart} products={products} />
+        <CartSidebar
+          cartProducts={cartProducts}
+          setCartProducts={setCartProducts}
+          removeFromCart={removeFromCart}
+        />
+      </Box>
     </div>
   );
-}
+};
 
 export default App;

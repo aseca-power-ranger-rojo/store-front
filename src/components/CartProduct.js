@@ -3,10 +3,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Button, Container } from "@mui/material";
+import { Close } from "@mui/icons-material";
 
-const Product = ({ id, name, price, addToCart }) => {
+const CartProduct = ({ id, name, price, removeFromCart }) => {
   return (
-    <Card id={id} sx={{ width: "60%", height: 68, justifyContent: "center" }}>
+    <Card id={id} sx={{ width: "100%", height: 100, justifyContent: "center" }}>
       <CardContent
         sx={{
           display: "flex",
@@ -31,8 +32,8 @@ const Product = ({ id, name, price, addToCart }) => {
           <Typography variant="h7" component="div">
             ${price}
           </Typography>
-          <Button onClick={() => addToCart({ id, name, price })}>
-            Add to cart
+          <Button onClick={() => removeFromCart(id)}>
+            <Close />
           </Button>
         </Container>
       </CardContent>
@@ -40,4 +41,4 @@ const Product = ({ id, name, price, addToCart }) => {
   );
 };
 
-export { Product };
+export { CartProduct };
