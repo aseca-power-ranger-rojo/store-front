@@ -7,50 +7,83 @@ const CartSidebar = ({
   cartProducts = [],
   setCartProducts,
   removeFromCart,
+  addToCart,
 }) => {
-  console.log(cartProducts);
   return (
-    <Box sx={{ maxHeight: "100vh", width: "430px", p: 2 }}>
-      <Box sx={{ height: "10vh", display: "flex" }}>
-        <ShoppingCart />
-        <Typography variant="h6" align="center">
-          Cart
-        </Typography>
+    <Box
+      sx={{
+        borderRadius: "0 0 0 18px",
+        top: "0px",
+        position: "sticky",
+        maxHeight: "90vh",
+        width: "430px",
+        p: 2,
+        backgroundColor: "#C2D39E",
+      }}
+    >
+      <Box sx={{ display: "flex", gap: "4px", height: "5vh" }}>
+        <Box sx={{ height: "32px", display: "flex", alignItems: "center" }}>
+          <ShoppingCart />
+          <Typography variant="h6" align="center">
+            Cart
+          </Typography>
+        </Box>
       </Box>
       <Box
         sx={{
           height: "80vh",
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
+          overflow: "auto",
         }}
       >
-        {cartProducts.length !== 0 ? (
-          cartProducts.map((product) => (
-            <CartProduct
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              price={product.price}
-              removeFromCart={removeFromCart}
-            />
-          ))
-        ) : (
-          <Typography variant="h6" align="center">
-            Carrito vacio
-          </Typography>
-        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
+        >
+          {cartProducts.length !== 0 ? (
+            cartProducts.map((product) => (
+              <CartProduct
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                quantity={product.quantity}
+                removeFromCart={removeFromCart}
+                addToCart={addToCart}
+              />
+            ))
+          ) : (
+            <Typography variant="h6" align="center">
+              Empty cart
+            </Typography>
+          )}
+        </Box>
       </Box>
-      <Box sx={{ height: "10vh", display: "flex" }}>
-        <ShoppingCart />
+      <Box
+        sx={{
+          padding: "8px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <Typography variant="h6" align="center">
-          Total:{" "}
+          Total: ${" "}
           {cartProducts.reduce(
-            (acc, product) => acc + parseInt(product.price),
+            (acc, curr) => acc + curr.price * curr.quantity,
             0
           )}
         </Typography>
-        <Button sx={{}} onClick={() => setCartProducts([])}>Buy</Button>
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ height: 36 }}
+          onClick={() => setCartProducts([])}
+        >
+          Buy
+        </Button>
       </Box>
     </Box>
   );

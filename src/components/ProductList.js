@@ -14,7 +14,7 @@ const ProductList = ({ addToCart, products }) => {
         gap: "50px",
         minHeight: "100vh",
         padding: "40px",
-        backgroundColor: "slategray",
+        backgroundColor: "#F7F8F5",
       }}
       elevation={1}
     >

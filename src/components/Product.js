@@ -6,7 +6,15 @@ import { Button, Container } from "@mui/material";
 
 const Product = ({ id, name, price, addToCart }) => {
   return (
-    <Card id={id} sx={{ width: "60%", height: 68, justifyContent: "center" }}>
+    <Card
+      id={id}
+      sx={{
+        width: "60%",
+        height: 68,
+        justifyContent: "center",
+        backgroundColor: "#C2D39E",
+      }}
+    >
       <CardContent
         sx={{
           display: "flex",
@@ -31,7 +39,11 @@ const Product = ({ id, name, price, addToCart }) => {
           <Typography variant="h7" component="div">
             ${price}
           </Typography>
-          <Button onClick={() => addToCart({ id, name, price })}>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => addToCart({ id, name, price })}
+          >
             Add to cart
           </Button>
         </Container>
