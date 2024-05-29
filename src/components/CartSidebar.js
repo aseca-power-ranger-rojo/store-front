@@ -5,10 +5,14 @@ import { CartProduct } from "./CartProduct";
 
 const CartSidebar = ({
   cartProducts = [],
-  setCartProducts,
+  handleBuy,
   removeFromCart,
   addToCart,
 }) => {
+  const totalPrice = cartProducts.reduce(
+    (acc, curr) => acc + curr.price * curr.quantity,
+    0
+  );
   return (
     <Box
       sx={{
@@ -30,6 +34,7 @@ const CartSidebar = ({
         </Box>
       </Box>
       <Box
+      id="list"
         sx={{
           height: "80vh",
           overflow: "auto",
@@ -70,17 +75,13 @@ const CartSidebar = ({
         }}
       >
         <Typography variant="h6" align="center">
-          Total: ${" "}
-          {cartProducts.reduce(
-            (acc, curr) => acc + curr.price * curr.quantity,
-            0
-          )}
+          Total: $ {totalPrice}
         </Typography>
         <Button
           variant="contained"
           color="success"
           sx={{ height: 36 }}
-          onClick={() => setCartProducts([])}
+          onClick={() => handleBuy(totalPrice)}
         >
           Buy
         </Button>

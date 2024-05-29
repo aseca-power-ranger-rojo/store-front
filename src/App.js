@@ -1,31 +1,19 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box } from "@mui/material";
 import CartSidebar from "./components/CartSidebar";
 import ProductList from "./components/ProductList";
+import { getProducts, addOrders } from "./services";
 
 const INITIAL_QUANTITY = 1;
 
 const App = () => {
-  const products = [
-    { id: "1", name: "Manzana Roja", price: "10" },
-    { id: "2", name: "Manzana Verde", price: "30" },
-    { id: "3", name: "Manzana Golden", price: "100" },
-    { id: "4", name: "Naranja", price: "10" },
-    { id: "5", name: "Mandarina", price: "30" },
-    { id: "6", name: "Toronja", price: "100" },
-    { id: "7", name: "Sandia", price: "10" },
-    { id: "8", name: "Pera", price: "30" },
-    { id: "9", name: "Banana", price: "30" },
-    { id: "10", name: "Kiwi", price: "100" },
-    { id: "11", name: "Tomate", price: "10" },
-    { id: "12", name: "Pera", price: "30" },
-    { id: "13", name: "Mandarina", price: "30" },
-    { id: "14", name: "Toronja", price: "100" },
-    { id: "15", name: "Sandia", price: "10" },
-    { id: "16", name: "Pera", price: "30" },
-  ];
+  const [products, setProducts] = useState([]);
 
   const [cartProducts, setCartProducts] = useState([]);
+
+  useEffect(() => {
+    getProducts().then((response) => setProducts(response));
+  }, []);
 
   const addToCart = useCallback((product, quantity) => {
     setCartProducts((prevCart) => {
@@ -56,13 +44,22 @@ const App = () => {
     [cartProducts]
   );
 
+  const handleBuy = (totalPrice) => {
+    if(totalPrice === 0) return
+    const products = cartProducts.map((product) => ({
+      productId: product.id,
+      quantity: product.quantity,
+    }));
+    addOrders(products, `${totalPrice}`).then(() => setCartProducts([]))
+  }
+
   return (
     <div className="App">
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
         <ProductList addToCart={addToCart} products={products} />
         <CartSidebar
           cartProducts={cartProducts}
-          setCartProducts={setCartProducts}
+          handleBuy={handleBuy}
           removeFromCart={removeFromCart}
           addToCart={addToCart}
         />
